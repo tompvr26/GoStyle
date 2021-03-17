@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +26,14 @@ class _LoginScreenState extends State<LoginScreen> {
     };
     var url = 'https://serverapimspr.herokuapp.com/mspr/users/login';
     var jsonResponse = null;
-    var response = await http.post(Uri.https(url, 'user'), body: data);
+    var response = await http.post(
+      Uri.https(url, 'user'),
+      body: data,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      encoding: Encoding.getByName("utf-8")
+    );
     if(response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       if(jsonResponse != null) {
@@ -62,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 60.0,
           child: TextField(
             controller: emailController,
-            keyboardType: TextInputType.emailAddress,
+            //keyboardType: TextInputType.emailAddress,
 
             style: TextStyle(
               color: Colors.white,
@@ -130,32 +137,36 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildRememberMeCheckbox() {
-    return Container(
+  //A IMPLEMENTER PLUS TARD
 
-      height: 20.0,
-      child: Row(
-        children: <Widget>[
-          Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
-              value: _rememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
-              onChanged: (value) {
-                setState(() {
-                  _rememberMe = value;
-                });
-              },
-            ),
-          ),
-          Text(
-            'Se souvenir de moi',
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildRememberMeCheckbox() {
+  //   return Container(
+  //
+  //     height: 20.0,
+  //     child: Row(
+  //       children: <Widget>[
+  //         Theme(
+  //           data: ThemeData(unselectedWidgetColor: Colors.white),
+  //           child: Checkbox(
+  //             value: _rememberMe,
+  //             checkColor: Colors.green,
+  //             activeColor: Colors.white,
+  //             onChanged: (value) {
+  //               setState(() {
+  //                 _rememberMe = value;
+  //               });
+  //             },
+  //           ),
+  //         ),
+  //         Text(
+  //           'Se souvenir de moi',
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  /////////////////////////
 
   Widget _buildLoginBtn() {
     return Container(
@@ -236,10 +247,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xFF96FB80),
-                      Color(0xFF78FF5B),
-                      Color(0xFF5DFF39),
-                      Color(0xFF34F20A),
+                      Color(0xFFf77b72),
+                      Color(0xFFf6685e),
+                      Color(0xFFf5554a),
+                      Color(0xFFF44336),
                     ],
                     stops: [0.1, 0.4, 0.7, 0.9],
                   ),
@@ -253,7 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     horizontal: 40.0,
                     vertical: 120.0,
                   ),
-                  child: Column(
+                  child: _isLoading ? Center(child: CircularProgressIndicator()) : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
@@ -271,7 +282,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 30.0),
                       _buildPassword(),
                       _buildForgotPasswordBtn(),
-                      _buildRememberMeCheckbox(),
+                      //_buildRememberMeCheckbox(),
                       _buildLoginBtn(),
                       _buildGoToRegisterBtn(),
                     ],
