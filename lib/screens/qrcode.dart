@@ -18,6 +18,11 @@ class _QRScanViewState extends State<QRScanView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios_sharp), onPressed: () {
+          Navigator.pop(context);
+        }),
+      ),
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
