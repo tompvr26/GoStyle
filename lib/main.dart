@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gostyle/screens/login.dart';
 import 'package:gostyle/screens/register.dart';
+import 'package:gostyle/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
