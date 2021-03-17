@@ -1,14 +1,53 @@
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gostyle/screens/main.dart';
 import 'package:gostyle/screens/register.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
+
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
+  bool _isLoading = false;
+
+  signIn(String email, password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map data = {
+      'email': email,
+      'password': password
+    };
+    var url = 'https://serverapimspr.herokuapp.com/mspr/users/login';
+    var jsonResponse = null;
+    var response = await http.post(Uri.https(url, 'user'), body: data);
+    if(response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      if(jsonResponse != null) {
+        setState(() {
+          _isLoading = false;
+        });
+        sharedPreferences.setString("token", jsonResponse['token']);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MainScreen()), (Route<dynamic> route) => false);
+      }
+    }
+    else {
+      setState(() {
+        _isLoading = false;
+      });
+      print(response.body);
+    }
+  }
+
+
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
 
   Widget _buildEmail() {
     return Column(
@@ -22,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           height: 60.0,
           child: TextField(
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
 
             style: TextStyle(
@@ -56,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           height: 60.0,
           child: TextField(
+            controller: passwordController,
             obscureText: true,
             style: TextStyle(
               color: Colors.white,
@@ -122,7 +163,12 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Bouton connexion'),
+        onPressed: emailController.text == "" || passwordController.text == "" ? null : () {
+          setState(() {
+            _isLoading = true;
+          });
+          signIn(emailController.text, passwordController.text);
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -141,6 +187,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
 
   Widget _buildGoToRegisterBtn(){
     return Container(

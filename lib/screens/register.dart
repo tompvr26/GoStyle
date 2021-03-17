@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gostyle/screens/login.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
+
+void _launchLink() async {
+  const url = "https://serverapimspr.herokuapp.com/mspr/users/login";
+
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw "Impossible de se connecter à l'API.";
+  }
+}
+
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool _rememberMe = false;
@@ -151,7 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Bouton connexion'),
+        onPressed: () => _launchLink(),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
