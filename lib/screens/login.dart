@@ -3,7 +3,7 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gostyle/screens/main.dart';
+import 'package:gostyle/main.dart';
 import 'package:gostyle/screens/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
