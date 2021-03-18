@@ -13,8 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Login UI',
       debugShowCheckedModeBanner: false,
+      initialRoute: '/',
       routes: {
-        '/': (context) =>  LoginScreen(),
+        // '/': (context) =>  LoginScreen(),
+        '/': (context) =>  Home(),
         '/login': (context) =>  LoginScreen(),
         '/register': (context) =>  RegisterScreen(),
       },

@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:gostyle/screens/coupon.dart';
 import 'package:gostyle/screens/qrcode.dart';
 
 class Home extends StatelessWidget {
@@ -16,7 +17,7 @@ class Home extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: MyHomePage(title: 'GoStyle'),
+      home: MyHomePage(title: 'Mes réductions'),
     );
   }
 }
@@ -28,6 +29,7 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
@@ -50,40 +52,37 @@ class _MyHomePageState extends State<MyHomePage> {
         // color: Colors.redAccent,
         child: ListView.builder(
           itemCount: coupons.length,
-          padding: EdgeInsets.all(30.0),
+          padding: EdgeInsets.all(10.0),
           itemBuilder: (context, index) {
             // return ListTile(title: Texts(coupons[index].code));
             return Card(
-              color: Colors.redAccent,
-              elevation: 10,
-              child: new Container(
-                height: 100,
-                // padding: EdgeInsets.all(8),
-
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(child: Text(coupons[index].code, textAlign: TextAlign.left)),
-                      const IconButton(
-                          icon: Icon(Icons.keyboard_arrow_right_rounded),
-                          onPressed: null)
-                    ],
+                color: Colors.redAccent,
+                elevation: 10,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push( context, MaterialPageRoute(
+                        builder: (context) =>
+                            CouponDetailScreen(coupon: coupons[index]),
+                      ),
+                    );
+                  },
+                  child: new Container(
+                    height: 100,
+                    padding: EdgeInsets.all(15),
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                            child: Text(coupons[index].code,
+                                textAlign: TextAlign.left)),
+                        const Icon(Icons.keyboard_arrow_right_rounded),
+                      ],
+                    ),
                   ),
-                ),
-              );
+                ));
           },
         ),
       ),
-
-      /*
-      ListView.builder(
-        itemCount: coupons.length,
-        itemBuilder: (context, index) {
-          return ListTile(title: Text(coupons[index].code));
-        },
-      ),
-      */
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigate to the second screen using a named route.
@@ -95,6 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
+
+
+
 
 class Coupon {
   final double reduction;
