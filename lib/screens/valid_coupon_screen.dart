@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:gostyle/screens/home_screen.dart';
 
 
 
 class ValidCouponScreen extends StatelessWidget {
 
-  static const nameRoute = '/validCoupon';
+  static const nameRoute = '/couponDetail';
+
 
   final String code;
   ValidCouponScreen({Key key, @required this.code}) : super(key: key);
 
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
+    // Use the Todo to create the UI.
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vérification'),
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_sharp),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
+        title: Text((code).toString()),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -32,3 +26,5 @@ class ValidCouponScreen extends StatelessWidget {
     );
   }
 }
+
+
