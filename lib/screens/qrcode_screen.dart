@@ -6,7 +6,7 @@ class QRScanView extends StatefulWidget {
 
   static const String nameRoute = '/qrcode';
 
-
+git
   @override
   State<StatefulWidget> createState() => _QRScanViewState();
 }

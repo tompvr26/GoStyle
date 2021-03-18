@@ -86,9 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigate to the second screen using a named route.
-          Navigator.pushNamed(context, '/qrcode');
+          Navigator.pushNamed(context, QRScanView.nameRoute);
         },
-        tooltip: 'Increment',
+        tooltip: 'Scan QrCode',
         child: Icon(Icons.qr_code_outlined),
       ),
     );
