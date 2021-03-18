@@ -1,15 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gostyle/screens/home_screen.dart';
+import 'package:gostyle/screens/valid_coupon_screen.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRScanView extends StatefulWidget {
-
   static const String nameRoute = '/qrcode';
 
   @override
   State<StatefulWidget> createState() => _QRScanViewState();
 }
-
 
 class _QRScanViewState extends State<QRScanView> {
   Barcode result;
@@ -28,18 +30,47 @@ class _QRScanViewState extends State<QRScanView> {
       ),
       body: Column(
         children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
+          Expanded(flex: 6, child: _buildQrView(context)),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: FittedBox(
               fit: BoxFit.contain,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      if (result != null)
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                controller.dispose();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ValidCouponScreen(code: (result.code).toString()),
+                                  ),
+                                );
+                              },
+                              child: TextButton(
+                                  child: Text('Verifier le code'),
+                              )
+                          )
+                        )
+                      else
+                        Text('Aucun résultat')
+                    ],
+                  ),
+                  /*
                   if (result != null)
-                    Text('Résultat: ${result.code}')
+                    Text(result.code)
                   else
-                    Text('Scan a code'),
+                    Text('Resultat'),
+
+                   */
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,20 +78,21 @@ class _QRScanViewState extends State<QRScanView> {
                       Container(
                         margin: EdgeInsets.all(8),
                         child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
+                          onPressed: () async {
+                            await controller?.toggleFlash();
+                            setState(() {});
+                          },
+                          child: FutureBuilder(
+                            future: controller?.getFlashStatus(),
+                            builder: (context, snapshot) {
+                              if (snapshot.data == true) {
+                                return Icon(Icons.flash_on_outlined);
+                              } else {
+                                return Icon(Icons.flash_off_outlined);
+                              }
                             },
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                if (snapshot.data == true) {
-                                  return Icon(Icons.flash_on_outlined);
-                                } else {
-                                  return Icon(Icons.flash_off_outlined);
-                                }
-                              },
-                            )),
+                          ),
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.all(8),
@@ -74,20 +106,13 @@ class _QRScanViewState extends State<QRScanView> {
                               builder: (context, snapshot) {
                                 if (snapshot.data != null) {
                                   return Text(
-                                      'Camera facing ${describeEnum(
-                                          snapshot.data)}');
+                                      'Camera facing ${describeEnum(snapshot.data)}');
                                 } else {
                                   return Text('loading');
                                 }
                               },
                             )),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
+                      ),
                       Container(
                         margin: EdgeInsets.all(8),
                         child: ElevatedButton(
@@ -118,15 +143,8 @@ class _QRScanViewState extends State<QRScanView> {
   }
 
   Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery
-        .of(context)
-        .size
-        .width < 400 ||
-        MediaQuery
-            .of(context)
-            .size
-            .height < 400)
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
     // To ensure the Scanner view is properly sizes after rotation
@@ -143,7 +161,6 @@ class _QRScanViewState extends State<QRScanView> {
     );
   }
 
-
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
@@ -151,10 +168,7 @@ class _QRScanViewState extends State<QRScanView> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        controller.pauseCamera();
-        if (result != null) {
-          checkQrCode((result.code).toString());
-        }
+        print(result);
       });
     });
   }
@@ -165,54 +179,9 @@ class _QRScanViewState extends State<QRScanView> {
     super.dispose();
   }
 
+  void _codeVerification(coded){
 
-  void checkQrCode(code) async {
-    await controller.pauseCamera();
-    String codeStr = (code).toString();
-    print(codeStr);
-
-    if (codeStr == 'AZE') {
-      print('ok');
-      await controller.resumeCamera();
-    } else {
-      print('non');
-      showAlertDialog(context);
-    }
   }
 
 
-  showAlertDialog(BuildContext context) async {
-    // set up the buttons
-    Widget cancelButton = FlatButton(
-      child: Text("Retour"),
-      onPressed: () async {
-        await controller?.resumeCamera();
-      },
-    );
-    Widget continueButton = FlatButton(
-      child: Text("Continue"),
-      onPressed: () {},
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("AlertDialog"),
-      content: Text(
-          "Would you like to continue learning how to use Flutter alerts?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
 }
-
-
