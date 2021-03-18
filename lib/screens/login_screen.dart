@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       //encoding: Encoding.getByName("utf-8")
     );
-    if(response.statusCode == 200) {
+    if(response.statusCode == 201) {
       jsonResponse = json.decode(response.body);
       if(jsonResponse != null) {
         setState(() {

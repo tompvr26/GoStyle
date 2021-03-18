@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:gostyle/screens/coupon_screen.dart';
 import 'package:gostyle/screens/qrcode_screen.dart';
+import 'package:gostyle/utilities/constants.dart';
+
 
 class HomeScreen extends StatelessWidget {
   static const String nameRoute = '/home';
@@ -96,9 +98,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+
+
+
 }
-
-
 
 
 
