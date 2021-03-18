@@ -1,14 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gostyle/screens/register.dart';
+import 'package:gostyle/screens/login_screen.dart';
+import 'file:///C:/devlopment/project/GoStyle/lib/widgets/UXRegister/register_login_button.dart';
+import 'package:gostyle/widgets/UXRegister/register_button.dart';
 
-class LoginScreen extends StatefulWidget {
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
+class RegisterScreen extends StatelessWidget {
 
-class _LoginScreenState extends State<LoginScreen> {
-  bool _rememberMe = false;
+  static const String nameRoute = '/register';
+
+  void gotToLoginScreen(BuildContext ctx) {
+    Navigator.of(ctx).pushNamed(LoginScreen.nameRoute,);
+  }
+
+
+  Widget _buildNom() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Nom',
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          height: 60.0,
+          child: TextField(
+            keyboardType: TextInputType.text,
+
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.account_circle_outlined,
+                color: Colors.white,
+              ),
+              hintText: 'Bernard',
+            ),
+
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPrenom() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Nom',
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          height: 60.0,
+          child: TextField(
+            keyboardType: TextInputType.text,
+
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.account_circle_outlined,
+                color: Colors.white,
+              ),
+              hintText: 'TAPIE',
+            ),
+
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _buildEmail() {
     return Column(
@@ -76,98 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        onPressed: () => print('Bouton mdp oublié'),
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Mot de passe oublié',
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRememberMeCheckbox() {
-    return Container(
-
-      height: 20.0,
-      child: Row(
-        children: <Widget>[
-          Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
-              value: _rememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
-              onChanged: (value) {
-                setState(() {
-                  _rememberMe = value;
-                });
-              },
-            ),
-          ),
-          Text(
-            'Se souvenir de moi',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLoginBtn() {
-    return Container(
-      padding: EdgeInsets.only(top: 25.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () => print('Bouton connexion'),
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.white,
-        child: Text(
-          'Connexion',
-          style: TextStyle(
-            color: Colors.black,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGoToRegisterBtn(){
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () => Navigator.push(context, new MaterialPageRoute(builder: (context) => new RegisterScreen()),),
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.white,
-        child: Text(
-          "S'inscrire",
-          style: TextStyle(
-            color: Colors.black,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
-
 
 
 
@@ -209,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'GoStyleee',
+                        'Créer un compte',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'OpenSans',
@@ -217,15 +196,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
                       SizedBox(height: 30.0),
+                      _buildNom(),
+                      SizedBox(height: 10.0),
+                      _buildPrenom(),
+                      SizedBox(height: 10.0),
                       _buildEmail(),
-                      SizedBox(height: 30.0),
+                      SizedBox(height: 10.0),
                       _buildPassword(),
-                      _buildForgotPasswordBtn(),
-                      _buildRememberMeCheckbox(),
-                      _buildLoginBtn(),
-                      _buildGoToRegisterBtn(),
+                      RegisterButton(),
+                      RegisterLoginButtton(),
                     ],
                   ),
                 ),
