@@ -177,7 +177,6 @@ class _QRScanViewState extends State<QRScanView> {
     } else {
       print('non');
       showAlertDialog(context);
-      await controller.resumeCamera();
     }
   }
 

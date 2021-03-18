@@ -7,6 +7,7 @@ class CouponDetailsScreen extends StatelessWidget {
 
   static const nameRoute = '/couponDetail';
 
+
   final Coupon coupon;
   CouponDetailsScreen({Key key, @required this.coupon}) : super(key: key);
 

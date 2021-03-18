@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: <Widget>[
           new IconButton(
-            icon: new Icon(Icons.qr_code),
+            icon: new Icon(Icons.camera_alt_outlined),
             onPressed: () {
               Navigator.push(
                 context,
