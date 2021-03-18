@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-
 class QRScanView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _QRScanViewState();
@@ -17,9 +16,11 @@ class _QRScanViewState extends State<QRScanView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back_ios_sharp), onPressed: () {
-          Navigator.pop(context);
-        }),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_sharp),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
       ),
       body: Column(
         children: <Widget>[
@@ -32,8 +33,7 @@ class _QRScanViewState extends State<QRScanView> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (result != null)
-                    Text(
-                        'Résultat: ${result.code}')
+                    Text('Résultat: ${result.code}')
                   else
                     Text('Scan a code'),
                   Row(
@@ -50,7 +50,11 @@ class _QRScanViewState extends State<QRScanView> {
                             child: FutureBuilder(
                               future: controller?.getFlashStatus(),
                               builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
+                                if (snapshot.data == true) {
+                                  return Icon(Icons.flash_on_outlined);
+                                } else {
+                                  return Icon(Icons.flash_off_outlined);
+                                }
                               },
                             )),
                       ),
@@ -66,12 +70,37 @@ class _QRScanViewState extends State<QRScanView> {
                               builder: (context, snapshot) {
                                 if (snapshot.data != null) {
                                   return Text(
-                                      'Camera facing ${describeEnum(snapshot.data)}');
+                                      'Camera facing ${describeEnum(
+                                          snapshot.data)}');
                                 } else {
                                   return Text('loading');
                                 }
                               },
                             )),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.all(8),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await controller?.pauseCamera();
+                          },
+                          child: Text('pause', style: TextStyle(fontSize: 20)),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(8),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await controller?.resumeCamera();
+                          },
+                          child: Text('resume', style: TextStyle(fontSize: 20)),
+                        ),
                       )
                     ],
                   ),
@@ -86,8 +115,14 @@ class _QRScanViewState extends State<QRScanView> {
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-        MediaQuery.of(context).size.height < 400)
+    var scanArea = (MediaQuery
+        .of(context)
+        .size
+        .width < 400 ||
+        MediaQuery
+            .of(context)
+            .size
+            .height < 400)
         ? 150.0
         : 300.0;
     // To ensure the Scanner view is properly sizes after rotation
@@ -96,13 +131,14 @@ class _QRScanViewState extends State<QRScanView> {
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
+          borderColor: Colors.pinkAccent,
           borderRadius: 10,
           borderLength: 30,
           borderWidth: 10,
           cutOutSize: scanArea),
     );
   }
+
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
@@ -111,6 +147,10 @@ class _QRScanViewState extends State<QRScanView> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        controller.pauseCamera();
+        if (result != null) {
+          checkQrCode((result.code).toString());
+        }
       });
     });
   }
@@ -120,13 +160,56 @@ class _QRScanViewState extends State<QRScanView> {
     controller?.dispose();
     super.dispose();
   }
-}
 
 
-class CodeScanner {
-  final String codeData;
+  void checkQrCode(code) async {
+    await controller.pauseCamera();
+    String codeStr = (code).toString();
+    print(codeStr);
 
-  CodeScanner(this.codeData);
+    if (codeStr == 'AZE') {
+      print('ok');
+      await controller.resumeCamera();
+    } else {
+      print('non');
+      showAlertDialog(context);
+      await controller.resumeCamera();
+    }
+  }
+
+
+  showAlertDialog(BuildContext context) async {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Retour"),
+      onPressed: () async {
+        await controller?.resumeCamera();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Continue"),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("AlertDialog"),
+      content: Text(
+          "Would you like to continue learning how to use Flutter alerts?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
 
 
