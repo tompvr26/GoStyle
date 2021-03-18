@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gostyle/main.dart';
+import 'package:gostyle/screens/home_screen.dart';
 import 'package:gostyle/screens/register_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,15 +34,15 @@ class _LoginScreenState extends State<LoginScreen> {
       'email': email,
       'password': password
     };
-    var url = 'https://serverapimspr.herokuapp.com/mspr/users/login';
+    var url = 'serverapimspr.herokuapp.com';
     var jsonResponse = null;
     var response = await http.post(
-      Uri.https(url, 'user'),
+      Uri.https(url, 'mspr/users/login'),
       body: data,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      encoding: Encoding.getByName("utf-8")
+      //encoding: Encoding.getByName("utf-8")
     );
     if(response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = false;
         });
         sharedPreferences.setString("token", jsonResponse['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MainScreen()), (Route<dynamic> route) => false);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
       }
     }
     else {

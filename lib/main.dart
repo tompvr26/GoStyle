@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
 
 
-      initialRoute: HomeScreen.nameRoute,
+      initialRoute: LoginScreen.nameRoute,
       routes: {
         LoginScreen.nameRoute: (context) => LoginScreen(),
         RegisterScreen.nameRoute : (context) => RegisterScreen(),
