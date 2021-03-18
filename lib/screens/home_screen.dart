@@ -5,7 +5,6 @@ import 'package:gostyle/screens/coupon_screen.dart';
 import 'package:gostyle/screens/qrcode_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-
   static const String nameRoute = '/home';
 
 
@@ -41,8 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
           new IconButton(
             icon: new Icon(Icons.qr_code),
             onPressed: () {
-              // Navigate to the second screen using a named route.
-              Navigator.pushNamed(context, QRScanView.nameRoute);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => QRScanView()),
+              );
             },
           )
         ],
@@ -85,8 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigate to the second screen using a named route.
-          Navigator.pushNamed(context, QRScanView.nameRoute);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => QRScanView()),
+          );
         },
         tooltip: 'Scan QrCode',
         child: Icon(Icons.qr_code_outlined),

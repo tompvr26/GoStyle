@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gostyle/screens/login_screen.dart';
+import 'package:gostyle/screens/qrcode_screen.dart';
 import 'package:gostyle/screens/register_screen.dart';
 import 'package:gostyle/screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.nameRoute: (context) => LoginScreen(),
         RegisterScreen.nameRoute : (context) => RegisterScreen(),
         HomeScreen.nameRoute: (context) => HomeScreen(),
+        QRScanView.nameRoute: (context) => QRScanView(),
 
       },
       //home: LoginScreen(),
