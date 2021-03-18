@@ -1,19 +1,19 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:gostyle/screens/coupon.dart';
-import 'package:gostyle/screens/qrcode.dart';
+import 'package:gostyle/screens/coupon_screen.dart';
+import 'package:gostyle/screens/qrcode_screen.dart';
 
-class Home extends StatelessWidget {
-  // This widget is the root of your application.
+class HomeScreen extends StatelessWidget {
+
+  static const String nameRoute = '/home';
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'GoStyle',
       debugShowCheckedModeBanner: false,
-      routes: {
-        '/qrcode': (context) => QRScanView(),
-      },
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: new Icon(Icons.qr_code),
             onPressed: () {
               // Navigate to the second screen using a named route.
-              Navigator.pushNamed(context, '/qrcode');
+              Navigator.pushNamed(context, QRScanView.nameRoute);
             },
           )
         ],
@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () {
                     Navigator.push( context, MaterialPageRoute(
                         builder: (context) =>
-                            CouponDetailScreen(coupon: coupons[index]),
+                            CouponDetailsScreen(coupon: coupons[index]),
                       ),
                     );
                   },

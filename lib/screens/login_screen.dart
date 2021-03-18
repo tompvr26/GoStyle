@@ -4,11 +4,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gostyle/main.dart';
-import 'package:gostyle/screens/register.dart';
+import 'package:gostyle/screens/register_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
+
+  static const String nameRoute = '/login';
+
+
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -17,6 +22,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   bool _isLoading = false;
+
+  static const String nameRoute = '/';
+
+
 
   signIn(String email, password) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:gostyle/screens/home.dart';
+import 'package:gostyle/screens/home_screen.dart';
 
 
 
-class CouponDetailScreen extends StatelessWidget {
-  // Declare a field that holds the Todo.
+class CouponDetailsScreen extends StatelessWidget {
+
+  static const nameRoute = '/couponDetail';
+
+
   final Coupon coupon;
-
-  // In the constructor, require a Todo.
-  CouponDetailScreen({Key key, @required this.coupon}) : super(key: key);
+  CouponDetailsScreen({Key key, @required this.coupon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

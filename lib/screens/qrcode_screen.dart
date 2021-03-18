@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRScanView extends StatefulWidget {
+
+  static const String nameRoute = '/qrcode';
+
+
   @override
   State<StatefulWidget> createState() => _QRScanViewState();
 }
+
 
 class _QRScanViewState extends State<QRScanView> {
   Barcode result;

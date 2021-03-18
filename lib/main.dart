@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gostyle/screens/login.dart';
-import 'package:gostyle/screens/register.dart';
-import 'package:gostyle/screens/home.dart';
+import 'package:gostyle/screens/login_screen.dart';
+import 'package:gostyle/screens/register_screen.dart';
+import 'package:gostyle/screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
@@ -13,12 +13,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Login UI',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+
+
+
+      initialRoute: HomeScreen.nameRoute,
       routes: {
-        // '/': (context) =>  LoginScreen(),
-        '/': (context) =>  Home(),
-        '/login': (context) =>  LoginScreen(),
-        '/register': (context) =>  RegisterScreen(),
+        LoginScreen.nameRoute: (context) => LoginScreen(),
+        RegisterScreen.nameRoute : (context) => RegisterScreen(),
+        HomeScreen.nameRoute: (context) => HomeScreen(),
+
       },
       //home: LoginScreen(),
     );

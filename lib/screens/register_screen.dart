@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gostyle/screens/login.dart';
+import 'package:gostyle/screens/login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatefulWidget {
+  static const String nameRoute = '/register';
+
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
