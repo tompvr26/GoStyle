@@ -1,43 +1,31 @@
-//import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:gostyle/screens/coupon_screen.dart';
+import 'package:gostyle/provider/Coupon.dart';
 import 'package:gostyle/screens/qrcode_screen.dart';
-import 'package:gostyle/utilities/constants.dart';
+import 'dart:async';
 
-
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String nameRoute = '/home';
-
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'GoStyle',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: MyHomePage(title: 'Mes réductions'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<HomeScreen> {
+
+  Future<Coupon> futureCoupon;
+
+  @override
+  void initState() {
+    super.initState();
+    futureCoupon = fetchCouponsUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Mes réduction'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.camera_alt_outlined),
@@ -52,8 +40,22 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       backgroundColor: Colors.white,
       body: new Container(
-        // color: Colors.redAccent,
-        child: ListView.builder(
+        child: FutureBuilder<Coupon>(
+          future: futureCoupon,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data.code);
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return CircularProgressIndicator();
+          },
+        ),
+
+
+
+
+        /*child: ListView.builder(
           itemCount: coupons.length,
           padding: EdgeInsets.all(10.0),
           itemBuilder: (context, index) {
@@ -84,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ));
           },
-        ),
+        ),*/
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -98,38 +100,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-
-
-
 }
-
-
-
-
-class Coupon {
-  final double reduction;
-  final String code;
-  final DateTime dateExpiration;
-  final DateTime dateDeCreation;
-  final String condition;
-
-  /*
-  final String idProduit;
-  final String idUser;
-   */
-
-  Coupon(
-    this.reduction,
-    this.code,
-    this.dateExpiration,
-    this.dateDeCreation,
-    this.condition,
-    /*this.idProduit, this.idUser*/
-  );
-}
-
-final coupons = List<Coupon>.generate(
-    4,
-    (index) =>
-        Coupon(25.0, 'XZE3PJ$index', DateTime.now(), DateTime.now(), '$index'));

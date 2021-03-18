@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:gostyle/screens/home_screen.dart';
+import 'package:gostyle/utilities/constants.dart';
 
 
 
-class ValidCouponScreen extends StatelessWidget {
-
+class ValidCouponScreen extends StatefulWidget {
   static const nameRoute = '/couponDetail';
-
 
   final String code;
   ValidCouponScreen({Key key, @required this.code}) : super(key: key);
+
+  @override
+  _ValidCouponScreen createState() => _ValidCouponScreen(code: this.code);
+}
+
+
+class _ValidCouponScreen extends State<ValidCouponScreen>{
+
+  final String code;
+  _ValidCouponScreen({@required this.code});
 
 
   @override
@@ -25,6 +33,12 @@ class ValidCouponScreen extends StatelessWidget {
       ),
     );
   }
+
+
+
+
+
+
 }
 
 
