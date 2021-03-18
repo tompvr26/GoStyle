@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gostyle/screens/home_screen.dart';
 import 'package:gostyle/screens/valid_coupon_screen.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -13,7 +10,10 @@ class QRScanView extends StatefulWidget {
   State<StatefulWidget> createState() => _QRScanViewState();
 }
 
+
+
 class _QRScanViewState extends State<QRScanView> {
+
   Barcode result;
   QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -32,11 +32,9 @@ class _QRScanViewState extends State<QRScanView> {
         children: <Widget>[
           Expanded(flex: 6, child: _buildQrView(context)),
           Expanded(
-            flex: 2,
             child: FittedBox(
               fit: BoxFit.contain,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -44,33 +42,25 @@ class _QRScanViewState extends State<QRScanView> {
                     children: <Widget>[
                       if (result != null)
                         Container(
-                          margin: EdgeInsets.all(8),
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                controller.dispose();
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ValidCouponScreen(code: (result.code).toString()),
-                                  ),
-                                );
-                              },
-                              child: TextButton(
+                            margin: EdgeInsets.all(1),
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  controller.dispose();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ValidCouponScreen(
+                                          code: (result.code).toString()),
+                                    ),
+                                  );
+                                },
+                                child: TextButton(
                                   child: Text('Verifier le code'),
-                              )
-                          )
-                        )
+                                )))
                       else
                         Text('Aucun résultat')
                     ],
                   ),
-                  /*
-                  if (result != null)
-                    Text(result.code)
-                  else
-                    Text('Resultat'),
-
-                   */
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -178,10 +168,4 @@ class _QRScanViewState extends State<QRScanView> {
     controller?.dispose();
     super.dispose();
   }
-
-  void _codeVerification(coded){
-
-  }
-
-
 }
