@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gostyle/screens/login_screen.dart';
-import 'file:///C:/devlopment/project/GoStyle/lib/widgets/UXRegister/register_login_button.dart';
 import 'package:gostyle/widgets/UXRegister/register_button.dart';
+import 'package:gostyle/widgets/UXRegister/register_login_button.dart';
 
 class RegisterScreen extends StatelessWidget {
 
@@ -11,7 +11,6 @@ class RegisterScreen extends StatelessWidget {
   void gotToLoginScreen(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(LoginScreen.nameRoute,);
   }
-
 
   Widget _buildNom() {
     return Column(

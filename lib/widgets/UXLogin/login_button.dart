@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gostyle/screens/coupons_screen.dart';
+import 'package:gostyle/screens/home_screen.dart';
 
 class LoginButton extends StatelessWidget {
   void goToScreenCoupons(BuildContext ctx) {
     Navigator.of(ctx)
-        .push(MaterialPageRoute(builder: (ctx) => CouponsScreen()));
+        .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
   }
 
   @override

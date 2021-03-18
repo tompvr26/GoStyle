@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gostyle/screens/login_screen.dart';
+import 'package:gostyle/screens/register_screen.dart';
 
 class LoginRegisterButton extends StatelessWidget {
 
   void gotToScreenRegister(BuildContext ctx) {
-    Navigator.of(ctx).pushNamed(LoginScreen.nameRoute);
+    Navigator.of(ctx).pushNamed(RegisterScreen.nameRoute);
   }
 
   @override

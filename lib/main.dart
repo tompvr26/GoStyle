@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gostyle/screens/coupon_details_screen.dart';
 
+
+import 'package:gostyle/screens/coupon_details_screen.dart';
+import 'package:gostyle/screens/home_screen.dart';
 import 'package:gostyle/screens/products_screen.dart';
-import 'package:gostyle/screens/coupons_screen.dart';
 import 'package:gostyle/screens/login_screen.dart';
 import 'package:gostyle/screens/register_screen.dart';
 
@@ -30,13 +31,13 @@ class MyApp extends StatelessWidget {
             )),
       ),
 
-      initialRoute: LoginScreen.nameRoute,
+      initialRoute: HomeScreen.nameRoute,
       routes: {
         LoginScreen.nameRoute: (context) => LoginScreen(),
         RegisterScreen.nameRoute : (context) => RegisterScreen(),
-        CouponsScreen.nameRoute: (context) => CouponsScreen(),
+        HomeScreen.nameRoute: (context) => HomeScreen(),
         ProductsScreen.routeName : (context) => ProductsScreen(),
-        CouponDetailsScreens.nameRoute : (context) => CouponDetailsScreens()
+        //CouponDetailsScreen.nameRoute : (context) => CouponDetailsScreen()
       },
       //home: LoginScreen(),
     );

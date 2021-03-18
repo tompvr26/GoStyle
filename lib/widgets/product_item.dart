@@ -12,7 +12,7 @@ class ProductItem extends StatelessWidget {
 
   void selectCouponDetails(BuildContext ctx) {
     Navigator.of(ctx)
-        .pushNamed(CouponDetailsScreens.nameRoute, arguments: {'id': id});
+        .pushNamed(CouponDetailsScreen.nameRoute, arguments: {'id': id});
   }
 
 
