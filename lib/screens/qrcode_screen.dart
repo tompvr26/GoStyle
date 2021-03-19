@@ -157,6 +157,10 @@ class _QRScanViewState extends State<QRScanView> {
     );
   }
 
+
+  /*
+   * Permet de scanner le code bar
+   */
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
@@ -164,7 +168,6 @@ class _QRScanViewState extends State<QRScanView> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        print(result);
       });
     });
   }

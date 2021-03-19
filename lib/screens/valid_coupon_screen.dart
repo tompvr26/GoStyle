@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gostyle/provider/Coupon.dart';
+import 'package:gostyle/screens/home_screen.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -26,7 +27,6 @@ class _ValidCouponScreen extends State<ValidCouponScreen> {
   @override
   void initState() {
     super.initState();
-    getInformationCoupon(code);
   }
 
 
@@ -37,13 +37,63 @@ class _ValidCouponScreen extends State<ValidCouponScreen> {
       appBar: AppBar(
         title: Text('Code valide'),
       ),
-        body: Container(),
+        body: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                  margin: EdgeInsets.all(1),
+                  child: ElevatedButton(
+                    //SI le boutton es presser alors tu execute la fonction
+                      onPressed: () async {
+                        if (await associationCouponUser(code)) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeScreen(),
+                            ),
+                          );
+                        } else {
+                          _showMyDialog();
+                        }
+                      }
+                  )
+              )
+            ],
+          ),
+        ),
     );
   }
 
 
 
 
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Code déjà ajouté'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("Imposible d'ajouter un doublon."),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Retour'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 
 
