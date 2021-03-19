@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:gostyle/utilities/constants.dart';
 import 'package:http/http.dart' as http;
 
-
-
-class Coupon{
-
+class Coupon {
   final int id;
   final String code;
   final DateTime dateDebut;
@@ -18,13 +16,24 @@ class Coupon{
   final DateTime createAt;
   final DateTime updateAt;
 
-  Coupon({this.id, this.code,this.dateDebut,this.dateExpiration,this.productId,this.userId,this.reduction,this.condition,this.createAt,this.updateAt});
+  Coupon(
+      { this.id,
+       this.code,
+       this.dateDebut,
+       this.dateExpiration,
+       this.productId,
+       this.userId,
+       this.reduction,
+       this.condition,
+       this.createAt,
+       this.updateAt});
 
-  factory Coupon.fromJson(Map<String, dynamic> json){
+
+  /*factory Coupon.fromJson(Map<String, dynamic> json) {
     return Coupon(
       id: json['id'],
-      code: json['code'],
-      dateDebut: json['id'],
+      code: json['code'].toString(),
+      dateDebut: json['dateDebut'],
       dateExpiration: json['dateExpiration'],
       productId: json['productId'],
       userId: json['userId'],
@@ -33,14 +42,15 @@ class Coupon{
       createAt: json['createAt'],
       updateAt: json['updateAt'],
     );
-  }
+  }*/
+
 }
 
-
-Future<Coupon> fetchCouponsUser() async {
+fetchCouponsUser() async {
   var token = await getUserToken();
   var url = 'serverapimspr.herokuapp.com';
   var uri = 'mspr/coupon/getAll';
+
 
   final response = await http.get(
     Uri.https(url, uri),
@@ -50,9 +60,11 @@ Future<Coupon> fetchCouponsUser() async {
     },
   );
 
+  final jsonresponse = json.decode(response.body) as List;
+
   if (response.statusCode == 200) {
-    return Coupon.fromJson(jsonDecode(response.body));
+    return jsonresponse;
   } else {
-    throw Exception('Failed to load album');
+    throw Exception('Failed to load post');
   }
 }

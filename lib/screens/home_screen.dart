@@ -3,6 +3,8 @@ import 'package:gostyle/provider/Coupon.dart';
 import 'package:gostyle/screens/qrcode_screen.dart';
 import 'dart:async';
 
+import 'coupon_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String nameRoute = '/home';
 
@@ -13,12 +15,14 @@ class HomeScreen extends StatefulWidget {
 
 class _MyHomePageState extends State<HomeScreen> {
 
-  Future<Coupon> futureCoupon;
+  final Future<List<Coupon>> coupons;
+
+  _MyHomePageState({this.coupons});
 
   @override
   void initState() {
     super.initState();
-    futureCoupon = fetchCouponsUser();
+    fetchCouponsUser();
   }
 
   @override
@@ -40,23 +44,8 @@ class _MyHomePageState extends State<HomeScreen> {
       ),
       backgroundColor: Colors.white,
       body: new Container(
-        child: FutureBuilder<Coupon>(
-          future: futureCoupon,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data.code);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            return CircularProgressIndicator();
-          },
-        ),
-
-
-
-
         /*child: ListView.builder(
-          itemCount: coupons.length,
+          itemCount: fetchCouponsUser().length,
           padding: EdgeInsets.all(10.0),
           itemBuilder: (context, index) {
             // return ListTile(title: Texts(coupons[index].code));
@@ -67,7 +56,7 @@ class _MyHomePageState extends State<HomeScreen> {
                   onTap: () {
                     Navigator.push( context, MaterialPageRoute(
                         builder: (context) =>
-                            CouponDetailsScreen(coupon: coupons[index]),
+                            CouponDetailsScreen(coupon: fetchCouponsUser()[index]),
                       ),
                     );
                   },
@@ -78,7 +67,7 @@ class _MyHomePageState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Expanded(
-                            child: Text(coupons[index].code,
+                            child: Text(fetchCouponsUser()[index].code,
                                 textAlign: TextAlign.left)),
                         const Icon(Icons.keyboard_arrow_right_rounded),
                       ],

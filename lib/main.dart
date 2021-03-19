@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
         RegisterScreen.nameRoute : (context) => RegisterScreen(),
         HomeScreen.nameRoute: (context) => HomeScreen(),
         QRScanView.nameRoute: (context) => QRScanView(),
-
       },
       //home: LoginScreen(),
     );
