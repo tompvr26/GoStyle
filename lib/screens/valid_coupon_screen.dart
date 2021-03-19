@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gostyle/provider/Coupon.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -25,6 +26,7 @@ class _ValidCouponScreen extends State<ValidCouponScreen> {
   @override
   void initState() {
     super.initState();
+    getInformationCoupon(code);
   }
 
 

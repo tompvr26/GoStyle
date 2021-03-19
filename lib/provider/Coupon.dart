@@ -65,6 +65,7 @@ getAllCouponsUser() async {
   final jsonresponse = json.decode(response.body);
 
   if (response.statusCode == 200) {
+    print(jsonresponse);
     return jsonresponse;
   } else {
     throw Exception('Failed to load post');
