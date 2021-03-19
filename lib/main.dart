@@ -3,6 +3,7 @@ import 'package:gostyle/screens/login_screen.dart';
 import 'package:gostyle/screens/qrcode_screen.dart';
 import 'package:gostyle/screens/register_screen.dart';
 import 'package:gostyle/screens/home_screen.dart';
+import 'package:gostyle/screens/user_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         RegisterScreen.nameRoute : (context) => RegisterScreen(),
         HomeScreen.nameRoute: (context) => HomeScreen(),
         QRScanView.nameRoute: (context) => QRScanView(),
+        UserProfileScreen.nameRoute: (context) => UserProfileScreen(),
       },
       //home: LoginScreen(),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gostyle/provider/Coupon.dart';
 import 'package:gostyle/screens/qrcode_screen.dart';
+import 'package:gostyle/screens/user_screen.dart';
 import 'dart:async';
 
 import 'coupon_screen.dart';
@@ -15,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _MyHomePageState extends State<HomeScreen> {
 
-  final Future<List<Coupon>> coupons;
+  final String coupons;
 
   _MyHomePageState({this.coupons});
 
@@ -29,7 +30,7 @@ class _MyHomePageState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mes réduction'),
+        title: Text('Mes réductions'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.camera_alt_outlined),
@@ -39,7 +40,16 @@ class _MyHomePageState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (context) => QRScanView()),
               );
             },
-          )
+          ),
+          new IconButton(
+            icon: new Icon(Icons.person_outline),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserProfileScreen()),
+              );
+            },
+          ),
         ],
       ),
       backgroundColor: Colors.white,
@@ -75,7 +85,7 @@ class _MyHomePageState extends State<HomeScreen> {
                   ),
                 ));
           },
-        ),*/
+        )*/
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
