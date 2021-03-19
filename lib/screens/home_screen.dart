@@ -22,7 +22,7 @@ class _MyHomePageState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    fetchCouponsUser();
+    getAllCouponsUser();
   }
 
   @override
