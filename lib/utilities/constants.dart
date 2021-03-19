@@ -14,23 +14,5 @@ getUserToken() async {
 }
 
 
-getCoupon(String code) async {
-  var token = 'Bearer ' + await getUserToken();
-  var url = 'serverapimspr.herokuapp.com';
-
-  Map data = {
-    'code': code,
-  };
-
-  var response = await http.post(
-    Uri.https(url, 'mspr/coupon/get'),
-    body: data,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": token
-    },
-  );
-  print(response.body);
-}
 
 

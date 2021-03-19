@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gostyle/provider/Coupon.dart';
 import 'package:gostyle/utilities/constants.dart';
 
 
@@ -19,17 +20,22 @@ class _ValidCouponScreen extends State<ValidCouponScreen>{
   final String code;
   _ValidCouponScreen({@required this.code});
 
+  @override
+  void initState() {
+    super.initState();
+    getCoupon(this.code);
 
+  }
   @override
   Widget build(BuildContext context) {
     // Use the Todo to create the UI.
     return Scaffold(
       appBar: AppBar(
-        title: Text((code).toString()),
+        title: Text('Vérification du code'),
       ),
-      body: Padding(
+      body: Container(
         padding: EdgeInsets.all(16.0),
-        child: Text((code).toString()),
+        child: Text(code),
       ),
     );
   }
