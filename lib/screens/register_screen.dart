@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gostyle/screens/login_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:gostyle/screens/home_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String nameRoute = '/register';
@@ -11,19 +15,46 @@ class RegisterScreen extends StatefulWidget {
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-void _launchLink() async {
-  const url = "https://serverapimspr.herokuapp.com/mspr/users/login";
-
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw "Impossible de se connecter à l'API.";
-  }
-}
-
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool _rememberMe = false;
+  bool _isLoading = false;
+
+  signUp(String nom, prenom, email, password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map data = {
+      'nom': nom,
+      'prenom': prenom,
+      'email': email,
+      'password': password
+    };
+    var url = 'serverapimspr.herokuapp.com';
+    var jsonResponse = null;
+    var response = await http.post(
+      Uri.https(url, 'mspr/users/register'),
+      body: data,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      //encoding: Encoding.getByName("utf-8")
+    );
+    if(response.statusCode == 201) {
+      jsonResponse = json.decode(response.body);
+      if(jsonResponse != null) {
+        setState(() {
+          _isLoading = false;
+        });
+        sharedPreferences.setString("token", jsonResponse['token']);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
+      }
+    }
+    else {
+      setState(() {
+        _isLoading = false;
+      });
+      print(response.body);
+    }
+  }
 
   Widget _buildNom() {
     return Column(
@@ -159,6 +190,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  final TextEditingController nomController = new TextEditingController();
+  final TextEditingController prenomController = new TextEditingController();
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
 
   Widget _buildRegisterBtn() {
     return Container(
@@ -166,7 +201,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => _launchLink(),
+        onPressed: nomController.text == "" || prenomController.text == "" || emailController.text == "" || passwordController.text == "" ? null : () {
+          setState(() {
+            _isLoading = true;
+          });
+          signUp(nomController.text, prenomController.text, emailController.text, passwordController.text);
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -250,7 +290,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     horizontal: 40.0,
                     vertical: 120.0,
                   ),
-                  child: Column(
+                  child: _isLoading ? Center(child: CircularProgressIndicator()) : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
