@@ -10,6 +10,7 @@ final url = 'https://serverapimspr.herokuapp.com';
 getUserToken() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var token = sharedPreferences.getString("token");
+  print(token);
   return 'Bearer '+token;
 }
 

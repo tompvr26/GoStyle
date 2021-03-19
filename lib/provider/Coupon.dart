@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gostyle/utilities/constants.dart';
@@ -49,7 +48,7 @@ class Coupon {
 /*
  * Rechercher tout les coupons pour  l'utilisateur connecté
  */
-fetchCouponsUser() async {
+getAllCouponsUser() async {
   var token = await getUserToken();
   var url = 'serverapimspr.herokuapp.com';
   var uri = 'mspr/coupon/getall';
@@ -72,17 +71,12 @@ fetchCouponsUser() async {
   }
 }
 
-
-
-
-
-
 /*
  * Rechercher un coupon par son code
  * Permet de vérifier si un code existe
  * fonctionnelle --
  */
-getCoupon(String code) async {
+getValidationCoupon(String code) async {
   var token = await getUserToken();
   var url = 'serverapimspr.herokuapp.com';
 
@@ -96,13 +90,39 @@ getCoupon(String code) async {
       "Content-Type": "application/json",
       "Authorization": token,
     },
-
   );
-  final jsonresponse = json.decode(response.body);
 
   if (response.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+getInformationCoupon(String code) async {
+  var token = await getUserToken();
+  var url = 'serverapimspr.herokuapp.com';
+
+  Map<String, String> data = {
+    'code': code,
+  };
+
+  var response = await http.get(
+    Uri.https(url, 'mspr/coupon/get', data),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token,
+    },
+  );
+
+  final jsonresponse = json.decode(response.body);
+
+
+  if (response.statusCode == 200) {
+    print(jsonresponse);
     return jsonresponse;
   } else {
-    return 0;
+    return false;
   }
 }

@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gostyle/provider/Coupon.dart';
 import 'package:gostyle/screens/valid_coupon_screen.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -10,10 +13,7 @@ class QRScanView extends StatefulWidget {
   State<StatefulWidget> createState() => _QRScanViewState();
 }
 
-
-
 class _QRScanViewState extends State<QRScanView> {
-
   Barcode result;
   QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -44,15 +44,21 @@ class _QRScanViewState extends State<QRScanView> {
                         Container(
                             margin: EdgeInsets.all(1),
                             child: ElevatedButton(
+                                //SI le boutton es presser alors tu execute la fonction
                                 onPressed: () async {
-                                  controller.dispose();
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ValidCouponScreen(
-                                          code: (result.code).toString()),
-                                    ),
-                                  );
+                                  if (await getValidationCoupon(result.code)) {
+                                    controller.dispose();
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ValidCouponScreen(
+                                            code: (result.code).toString()),
+                                      ),
+                                    );
+                                  } else {
+                                    controller.pauseCamera();
+                                    _showMyDialog();
+                                  }
                                 },
                                 child: TextButton(
                                   child: Text('Verifier le code'),
@@ -168,4 +174,35 @@ class _QRScanViewState extends State<QRScanView> {
     controller?.dispose();
     super.dispose();
   }
+
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Code invalide'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("Votre code n'est pas valide"),
+                Text("Veuillez scanner un code valide et non expiré."),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Retour'),
+              onPressed: () {
+                controller.resumeCamera();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
