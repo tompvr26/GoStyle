@@ -24,7 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   bool _isLoading = false;
 
-  static const String nameRoute = '/';
 
 
 
@@ -100,7 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
-
   Widget _buildPassword() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
-
   Widget _buildForgotPasswordBtn() {
     return Container(
       alignment: Alignment.centerRight,
@@ -146,7 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
   //A IMPLEMENTER PLUS TARD
 
   // Widget _buildRememberMeCheckbox() {
@@ -177,7 +173,6 @@ class _LoginScreenState extends State<LoginScreen> {
   // }
 
   /////////////////////////
-
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.only(top: 25.0),
@@ -208,9 +203,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-
-
   Widget _buildGoToRegisterBtn(){
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.0),
