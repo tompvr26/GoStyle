@@ -45,6 +45,16 @@ class Coupon {
 
 }
 
+
+
+
+
+
+
+
+
+
+
 /*
  * Rechercher tout les coupons pour  l'utilisateur connecté
  */
@@ -101,6 +111,9 @@ getValidationCoupon(String code) async {
 }
 
 
+
+
+
 getInformationCoupon(String code) async {
   var token = await getUserToken();
   var url = 'serverapimspr.herokuapp.com';
@@ -123,6 +136,35 @@ getInformationCoupon(String code) async {
   if (response.statusCode == 200) {
     print(jsonresponse);
     return jsonresponse;
+  } else {
+    return false;
+  }
+}
+
+
+associationCouponUser(String code) async {
+  var token = await getUserToken();
+  var url = 'serverapimspr.herokuapp.com';
+
+  Map<String, String> data = {
+    'code': code,
+  };
+
+  var response = await http.post(
+    Uri.https(url,'mspr/coupon/createAssociation'),
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": token,
+    },
+  );
+
+  final jsonresponse = json.decode(response.body);
+
+  if (response.statusCode == 201) {
+    print(jsonresponse);
+    print('asso passer');
+    return true;
   } else {
     return false;
   }
