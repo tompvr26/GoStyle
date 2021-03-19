@@ -56,6 +56,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  final TextEditingController nomController = new TextEditingController();
+  final TextEditingController prenomController = new TextEditingController();
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
+
   Widget _buildNom() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +73,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           alignment: Alignment.centerLeft,
           height: 60.0,
           child: TextField(
-            keyboardType: TextInputType.text,
+            controller: nomController,
+            //keyboardType: TextInputType.text,
 
             style: TextStyle(
               color: Colors.white,
@@ -102,7 +108,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           alignment: Alignment.centerLeft,
           height: 60.0,
           child: TextField(
-            keyboardType: TextInputType.text,
+            controller: prenomController,
+            //keyboardType: TextInputType.text,
 
             style: TextStyle(
               color: Colors.white,
@@ -136,7 +143,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           alignment: Alignment.centerLeft,
           height: 60.0,
           child: TextField(
-            keyboardType: TextInputType.emailAddress,
+            controller: emailController,
+            //keyboardType: TextInputType.emailAddress,
 
             style: TextStyle(
               color: Colors.white,
@@ -170,6 +178,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           alignment: Alignment.centerLeft,
           height: 60.0,
           child: TextField(
+            controller: passwordController,
+
             obscureText: true,
             style: TextStyle(
               color: Colors.white,
@@ -182,18 +192,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icons.lock,
                 color: Colors.white,
               ),
-              hintText: 'motdepasse123',
+              hintText: 'rayansucedesqueu',
             ),
           ),
         ),
       ],
     );
   }
-
-  final TextEditingController nomController = new TextEditingController();
-  final TextEditingController prenomController = new TextEditingController();
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
 
   Widget _buildRegisterBtn() {
     return Container(
