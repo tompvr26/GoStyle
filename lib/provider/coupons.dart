@@ -15,20 +15,19 @@ class Coupon {
   final DateTime createAt;
   final DateTime updateAt;
 
-  Coupon(
-      { this.id,
-       this.code,
-       this.dateDebut,
-       this.dateExpiration,
-       this.productId,
-       this.userId,
-       this.reduction,
-       this.condition,
-       this.createAt,
-       this.updateAt});
+  Coupon({ this.id,
+    this.code,
+    this.dateDebut,
+    this.dateExpiration,
+    this.productId,
+    this.userId,
+    this.reduction,
+    this.condition,
+    this.createAt,
+    this.updateAt});
 
 
-  /*factory Coupon.fromJson(Map<String, dynamic> json) {
+/*factory Coupon.fromJson(Map<String, dynamic> json) {
     return Coupon(
       id: json['id'],
       code: json['code'].toString(),
@@ -46,13 +45,23 @@ class Coupon {
 }
 
 
+Future<void> fetchAllCouponsUser() async {
+  var token = await getUserToken();
+  var url = 'serverapimspr.herokuapp.com';
+  var uri = 'mspr/coupon/getall';
 
-
-
-
-
-
-
+  try {
+    final response = await http.get(
+      Uri.https(url, uri),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": token
+      },
+    );
+  } catch(error) {
+    throw(error);
+  }
+}
 
 
 /*
@@ -111,9 +120,6 @@ getValidationCoupon(String code) async {
 }
 
 
-
-
-
 getInformationCoupon(String code) async {
   var token = await getUserToken();
   var url = 'serverapimspr.herokuapp.com';
@@ -151,7 +157,7 @@ associationCouponUser(String code) async {
   };
 
   var response = await http.post(
-    Uri.https(url,'mspr/coupon/createAssociation'),
+    Uri.https(url, 'mspr/coupon/createAssociation'),
     body: data,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
