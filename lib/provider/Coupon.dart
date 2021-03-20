@@ -58,7 +58,7 @@ class Coupon {
 /*
  * Rechercher tout les coupons pour  l'utilisateur connecté
  */
-Future<dynamic> getAllCouponsUser() async {
+getAllCouponsUser() async {
   var token = await getUserToken();
   var url = 'serverapimspr.herokuapp.com';
   var uri = 'mspr/coupon/getall';
