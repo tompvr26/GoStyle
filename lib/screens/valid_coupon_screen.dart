@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gostyle/provider/Coupon.dart';
 import 'package:gostyle/screens/home_screen.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:qr_flutter/qr_flutter.dart';
 
-import 'package:gostyle/utilities/constants.dart';
 
 class ValidCouponScreen extends StatefulWidget {
   static const nameRoute = '/couponDetail';
@@ -38,28 +36,35 @@ class _ValidCouponScreen extends State<ValidCouponScreen> {
         title: Text('Code valide'),
       ),
         body: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.all(1),
-                  child: ElevatedButton(
+          child: Center(
+            //margin: EdgeInsets.all(1),
+            child: Column(
+              children: [
+                QrImage(
+                  data: code,
+                  version: QrVersions.auto,
+                  size: 250.0,
+                ),
+                Text(code),
+                ElevatedButton(
+                    child: Text("Enregister le coupon"),
                     //SI le boutton es presser alors tu execute la fonction
-                      onPressed: () async {
-                        if (await associationCouponUser(code)) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
-                        } else {
-                          _showMyDialog();
-                        }
+                    onPressed: () async {
+                      if (await associationCouponUser(code)) {
+                        Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeScreen(),
+                          ),
+                        );
+                      } else {
+                        _showMyDialog();
                       }
-                  )
-              )
-            ],
-          ),
+                    }
+                )
+              ],
+            )
+          )
         ),
     );
   }
@@ -78,7 +83,7 @@ class _ValidCouponScreen extends State<ValidCouponScreen> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text("Imposible d'ajouter un doublon."),
+                Text("Impossible d'ajouter un coupon déjà existant dans votre liste."),
               ],
             ),
           ),
