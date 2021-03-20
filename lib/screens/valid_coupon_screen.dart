@@ -62,7 +62,7 @@ class _ValidCouponScreen extends State<ValidCouponScreen> {
                       }
                     }
                 )
-              ],
+              ], s
             )
           )
         ),
