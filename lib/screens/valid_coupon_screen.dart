@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gostyle/provider/Coupon.dart';
+import 'package:gostyle/provider/coupons.dart';
 import 'package:gostyle/screens/home_screen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 

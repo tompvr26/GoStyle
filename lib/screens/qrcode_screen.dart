@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gostyle/provider/Coupon.dart';
+import 'package:gostyle/provider/coupons.dart';
 import 'package:gostyle/screens/valid_coupon_screen.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 

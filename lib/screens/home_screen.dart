@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gostyle/provider/Coupon.dart';
-import 'package:gostyle/screens/qrcode_screen.dart';
-import 'package:gostyle/screens/user_screen.dart';
-import 'dart:async';
+import 'package:provider/provider.dart';
 
-import 'coupon_screen.dart';
+
+import './coupon_screen.dart';
+import '../provider/coupons.dart';
+import '../screens/qrcode_screen.dart';
+import '../screens/user_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   static const String nameRoute = '/home';
@@ -16,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 class _MyHomePageState extends State<HomeScreen> {
 
+  var _isInit = true;
+
   final String coupons;
 
   _MyHomePageState({this.coupons});
@@ -23,11 +27,24 @@ class _MyHomePageState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getAllCouponsUser();
   }
 
   @override
+  void didChangeDependencies() {
+    if(_isInit){
+      Provider.of<Coupons>(context).fetchAllCouponsUser();
+    }
+    _isInit = false;
+
+    super.didChangeDependencies();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+    final couponData = Provider.of<Coupons>(context);
+    final coupons = couponData.items;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Mes réductions'),
@@ -53,20 +70,20 @@ class _MyHomePageState extends State<HomeScreen> {
         ],
       ),
       backgroundColor: Colors.white,
-      body: new Container(
-        /*child: ListView.builder(
-          itemCount: fetchCouponsUser().length,
+      body: Container(
+        child: ListView.builder(
+          itemCount: coupons.length,
           padding: EdgeInsets.all(10.0),
-          itemBuilder: (context, index) {
-            // return ListTile(title: Texts(coupons[index].code));
-            return Card(
+          itemBuilder: (context, index) => ChangeNotifierProvider.value(
+            value: coupons[index],
+            child: Card(
                 color: Colors.redAccent,
                 elevation: 10,
                 child: InkWell(
                   onTap: () {
                     Navigator.push( context, MaterialPageRoute(
                         builder: (context) =>
-                            CouponDetailsScreen(coupon: fetchCouponsUser()[index]),
+                            CouponDetailsScreen(coupon: coupons[index]),
                       ),
                     );
                   },
@@ -77,15 +94,15 @@ class _MyHomePageState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Expanded(
-                            child: Text(fetchCouponsUser()[index].code,
+                            child: Text(coupons[index].code,
                                 textAlign: TextAlign.left)),
                         const Icon(Icons.keyboard_arrow_right_rounded),
                       ],
                     ),
                   ),
-                ));
-          },
-        )*/
+                ))
+          ),
+        )
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
