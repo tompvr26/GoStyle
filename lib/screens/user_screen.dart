@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gostyle/models/user.dart';
 import 'package:gostyle/screens/login_screen.dart';
+import 'package:gostyle/utilities/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfileScreen extends StatefulWidget {
