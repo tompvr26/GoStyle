@@ -4,7 +4,11 @@ import 'package:gostyle/screens/qrcode_screen.dart';
 import 'package:gostyle/screens/register_screen.dart';
 import 'package:gostyle/screens/home_screen.dart';
 import 'package:gostyle/screens/user_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import './provider/coupons.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -12,23 +16,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Login UI',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+            value: Coupons()
+        )
+      ],
+      child: MaterialApp(
+        title: 'Flutter Login UI',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+
+
+        initialRoute: LoginScreen.nameRoute,
+        routes: {
+          LoginScreen.nameRoute: (context) => LoginScreen(),
+          RegisterScreen.nameRoute : (context) => RegisterScreen(),
+          HomeScreen.nameRoute: (context) => HomeScreen(),
+          QRScanView.nameRoute: (context) => QRScanView(),
+          UserProfileScreen.nameRoute: (context) => UserProfileScreen(),
+        },
+        //home: LoginScreen(),
       ),
-
-
-      initialRoute: LoginScreen.nameRoute,
-      routes: {
-        LoginScreen.nameRoute: (context) => LoginScreen(),
-        RegisterScreen.nameRoute : (context) => RegisterScreen(),
-        HomeScreen.nameRoute: (context) => HomeScreen(),
-        QRScanView.nameRoute: (context) => QRScanView(),
-        UserProfileScreen.nameRoute: (context) => UserProfileScreen(),
-      },
-      //home: LoginScreen(),
     );
   }
 }
