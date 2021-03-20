@@ -2,76 +2,63 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gostyle/utilities/constants.dart';
 import 'package:http/http.dart' as http;
+import './coupon.dart';
 
-class Coupon {
-  final int id;
-  final String code;
-  final DateTime dateDebut;
-  final DateTime dateExpiration;
-  final int productId;
-  final int userId;
-  final double reduction;
-  final String condition;
-  final DateTime createAt;
-  final DateTime updateAt;
+class Coupons with ChangeNotifier {
+  List<Coupon> _items = [];
 
-  Coupon({ this.id,
-    this.code,
-    this.dateDebut,
-    this.dateExpiration,
-    this.productId,
-    this.userId,
-    this.reduction,
-    this.condition,
-    this.createAt,
-    this.updateAt});
+  List<Coupon> get items {
+    return _items;
+  }
 
+  static double checkDouble(dynamic value) {
+    if (value is String) {
+      return double.parse(value);
+    } else {
+      return value.toDouble;
+    }
+  }
 
-/*factory Coupon.fromJson(Map<String, dynamic> json) {
-    return Coupon(
-      id: json['id'],
-      code: json['code'].toString(),
-      dateDebut: json['dateDebut'],
-      dateExpiration: json['dateExpiration'],
-      productId: json['productId'],
-      userId: json['userId'],
-      reduction: json['reduction'],
-      condition: json['condition'],
-      createAt: json['createAt'],
-      updateAt: json['updateAt'],
-    );
-  }*/
-
-}
-
-
-Future<void> fetchAllCouponsUser() async {
-  var token = await getUserToken();
-  var url = 'serverapimspr.herokuapp.com';
-  var uri = 'mspr/coupon/getall';
-
-  try {
-    final response = await http.get(
-      Uri.https(url, uri),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": token
-      },
-    );
-  } catch(error) {
-    throw(error);
+  Future<void> fetchAllCouponsUser() async {
+    var token = await getUserToken();
+    var url = 'serverapimspr.herokuapp.com';
+    var uri = 'mspr/coupon/getall';
+    try {
+      final response = await http.get(
+        Uri.https(url, uri),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": token
+        },
+      );
+      final List<dynamic> extractedData = json.decode(response.body);
+      final List<Coupon> loadedCoupon = [];
+      extractedData.forEach((couponData) {
+        final extractObject = couponData as Map<String, dynamic>;
+        extractObject.forEach((couponId, couponData) {
+          loadedCoupon.add(Coupon(
+              code: couponData['code'],
+              dateDebut: couponData['dateDebut'],
+              dateExpiration: couponData['dateExpiration'],
+              condition: couponData['condition']));
+        });
+      });
+      _items = loadedCoupon;
+      notifyListeners();
+    } catch (error) {
+      throw (error);
+    }
   }
 }
-
 
 /*
  * Rechercher tout les coupons pour  l'utilisateur connecté
  */
+/*
 getAllCouponsUser() async {
   var token = await getUserToken();
   var url = 'serverapimspr.herokuapp.com';
   var uri = 'mspr/coupon/getall';
-
 
   final response = await http.get(
     Uri.https(url, uri),
@@ -90,6 +77,8 @@ getAllCouponsUser() async {
     throw Exception('Failed to load post');
   }
 }
+
+ */
 
 /*
  * Rechercher un coupon par son code
@@ -119,7 +108,6 @@ getValidationCoupon(String code) async {
   }
 }
 
-
 getInformationCoupon(String code) async {
   var token = await getUserToken();
   var url = 'serverapimspr.herokuapp.com';
@@ -138,7 +126,6 @@ getInformationCoupon(String code) async {
 
   final jsonresponse = json.decode(response.body);
 
-
   if (response.statusCode == 200) {
     print(jsonresponse);
     return jsonresponse;
@@ -146,7 +133,6 @@ getInformationCoupon(String code) async {
     return false;
   }
 }
-
 
 associationCouponUser(String code) async {
   var token = await getUserToken();
