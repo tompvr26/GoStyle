@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gostyle/provider/coupons.dart';
 import 'package:gostyle/screens/home_screen.dart';
@@ -51,18 +53,20 @@ class _ValidCouponScreen extends State<ValidCouponScreen> {
                     //SI le boutton es presser alors tu execute la fonction
                     onPressed: () async {
                       if (await associationCouponUser(code)) {
-                        Navigator.pop(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
                           ),
                         );
                       } else {
-                        _showMyDialog();
+                        var titre = 'Code déjà existant';
+                        var content = "Impossible d'ajouter un coupon déjà existant dans votre liste.";
+                        _showMyDialog(titre, content);
                       }
                     }
                 )
-              ], s
+              ],
             )
           )
         ),
@@ -72,18 +76,17 @@ class _ValidCouponScreen extends State<ValidCouponScreen> {
 
 
 
-
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog(title, content) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Code déjà ajouté'),
+          title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text("Impossible d'ajouter un coupon déjà existant dans votre liste."),
+                Text(content),
               ],
             ),
           ),
