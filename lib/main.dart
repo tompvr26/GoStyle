@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gostyle/screens/coupon_screen.dart';
 import 'package:gostyle/screens/login_screen.dart';
 import 'package:gostyle/screens/qrcode_screen.dart';
 import 'package:gostyle/screens/register_screen.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.nameRoute: (context) => HomeScreen(),
           QRScanView.nameRoute: (context) => QRScanView(),
           UserProfileScreen.nameRoute: (context) => UserProfileScreen(),
+          CouponDetailsScreen.nameRoute: (context) => CouponDetailsScreen(),
         },
         //home: LoginScreen(),
       ),
