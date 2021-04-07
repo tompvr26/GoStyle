@@ -87,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icons.account_circle_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Bernard',
+              hintText: 'Vincent',
             ),
 
           ),
@@ -122,7 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icons.account_circle_outlined,
                 color: Colors.white,
               ),
-              hintText: 'TAPIE',
+              hintText: 'Pierre',
             ),
 
           ),
@@ -192,7 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icons.lock,
                 color: Colors.white,
               ),
-              hintText: 'rayansucedesqueu',
+              hintText: 'ex : 8ZHBkSIJ-87AnxS-9SABB',
             ),
           ),
         ),
