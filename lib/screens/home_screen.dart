@@ -23,7 +23,7 @@ class _MyHomePageState extends State<HomeScreen> {
 
   @override
   void didChangeDependencies() {
-    if (_isInit || Provider.of<Coupons>(context).items.isEmpty) {
+    if (_isInit) {
       Provider.of<Coupons>(context).fetchAllCouponsUser();
     }
 

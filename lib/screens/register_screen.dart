@@ -40,18 +40,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
     if(response.statusCode == 201) {
       jsonResponse = json.decode(response.body);
+      var title = 'Inscription Validé';
+      var content = 'Vous pouvez maintenant vous connecter';
+      _showMyDialog(title, content);
       if(jsonResponse != null) {
         setState(() {
           _isLoading = false;
         });
         sharedPreferences.setString("token", jsonResponse['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginScreen()), (Route<dynamic> route) => false);
       }
     }
     else {
       setState(() {
         _isLoading = false;
       });
+      var title = 'Erreur';
+      var content = 'Une erreur est détectée...';
+      _showMyDialog(title, content);
       print(response.body);
     }
   }
@@ -87,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icons.account_circle_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Vincent',
+              hintText: 'Dupont',
             ),
 
           ),
@@ -101,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Nom',
+          'Prénom',
         ),
         SizedBox(height: 10.0),
         Container(
@@ -122,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icons.account_circle_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Pierre',
+              hintText: 'Vincent',
             ),
 
           ),
@@ -327,4 +333,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
+
+  Future<void> _showMyDialog(title, content) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(content),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Retour'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
