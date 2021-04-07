@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.lock,
                 color: Colors.white,
               ),
-              hintText: 'rayansucedesqueu',
+              hintText: 'ex : 8ZHBkSIJ-87AnxS-9SABB',
             ),
           ),
         ),

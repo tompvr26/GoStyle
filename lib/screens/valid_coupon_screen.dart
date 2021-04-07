@@ -53,7 +53,7 @@ class _ValidCouponScreen extends State<ValidCouponScreen> {
                     //SI le boutton es presser alors tu execute la fonction
                     onPressed: () async {
                       if (await associationCouponUser(code)) {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
