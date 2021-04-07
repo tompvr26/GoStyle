@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 import './coupon_screen.dart';
 import '../provider/coupons.dart';
 import '../screens/qrcode_screen.dart';
 import '../screens/user_screen.dart';
-
 
 class HomeScreen extends StatefulWidget {
   static const String nameRoute = '/home';
@@ -15,30 +13,24 @@ class HomeScreen extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
 class _MyHomePageState extends State<HomeScreen> {
-
   var _isInit = true;
 
   final String coupons;
 
+
   _MyHomePageState({this.coupons});
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
-    if(_isInit){
+    if (_isInit || Provider.of<Coupons>(context).items.isEmpty) {
       Provider.of<Coupons>(context).fetchAllCouponsUser();
     }
+
     _isInit = false;
 
     super.didChangeDependencies();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,23 +63,19 @@ class _MyHomePageState extends State<HomeScreen> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        child: ListView.builder(
-          itemCount: coupons.length,
-          padding: EdgeInsets.all(10.0),
-          itemBuilder: (context, index) => ChangeNotifierProvider.value(
+          child: ListView.builder(
+        itemCount: coupons.length,
+        padding: EdgeInsets.all(10.0),
+        itemBuilder: (context, index) => ChangeNotifierProvider.value(
             value: coupons[index],
             child: Card(
                 color: Colors.redAccent,
                 elevation: 10,
                 child: InkWell(
-                  onTap: () {
-                    Navigator.push( context, MaterialPageRoute(
-                        builder: (context) =>
-                            CouponDetailsScreen(coupon: coupons[index]),
-                      ),
-                    );
-                  },
-                  child: new Container(
+                  onTap: () => Navigator.of(context).pushNamed(
+                      CouponDetailsScreen.nameRoute,
+                      arguments: coupons[index].code),
+                  child: Container(
                     height: 100,
                     padding: EdgeInsets.all(15),
                     child: new Row(
@@ -100,10 +88,8 @@ class _MyHomePageState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                ))
-          ),
-        )
-      ),
+                ))),
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
