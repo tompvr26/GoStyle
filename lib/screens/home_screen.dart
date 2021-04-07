@@ -82,7 +82,7 @@ class _MyHomePageState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Expanded(
-                            child: Text(coupons[index].code,
+                            child: Text(coupons[index].product.nom +'  /  '+ (coupons[index].reduction).toString()+'%',
                                 textAlign: TextAlign.left)),
                         const Icon(Icons.keyboard_arrow_right_rounded),
                       ],

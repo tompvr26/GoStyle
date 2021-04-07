@@ -57,6 +57,16 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _isLoading = false;
       });
+      if(response.statusCode == 403) {
+        var title = 'Mot de passe incorrect';
+        var content = "Votre mot de passe est incorrect";
+        _showMyDialog(title, content);
+      }
+      if(response.statusCode == 404) {
+        var title = 'Utilisateur inexistant';
+        var content = "Vous utilisez un identifiant qui n'existe pas";
+        _showMyDialog(title, content);
+      }
       print(response.body);
     }
   }
@@ -297,4 +307,32 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  Future<void> _showMyDialog(title, content) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(content),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Retour'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
